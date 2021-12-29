@@ -14,6 +14,12 @@ import string
 import re
 import pickle
 
+# How does it work?
+# Tokenize and remove stop words
+# Vectorize
+# Apply Multinomial Naive Bayes
+# Save model
+
 stop_words = set(stopwords.words('english'))
 
 train_orig=pd.read_csv('train.csv')
@@ -55,9 +61,8 @@ df_minority_upsampled = resample(df_minority,
 
 df_upsampled = pd.concat([df_majority, df_minority_upsampled])
 
-print("Before")
 print(train.label.value_counts())
-print("After")
+
 print(df_upsampled.label.value_counts())
 
 X_train, X_test, y_train, y_test = train_test_split(df_upsampled['text'], df_upsampled['label'], test_size=0.5, stratify=df_upsampled['label'])
@@ -80,7 +85,6 @@ print(metrics.confusion_matrix(expected, predicted))
 
 plot_confusion_matrix(metrics.confusion_matrix(expected, predicted))
 
-print(trainp.iloc[:10])
 trainn.iloc[:10]
 
 gg=X_test.reset_index(drop=True)
@@ -108,9 +112,3 @@ with open(pickle_filename, 'wb') as file:
 
 with open(pickle_filename_vector, 'wb') as file:
     pickle.dump(vect, file)
-
-
-# Tokenize
-# Create frequency table with tokenized text and count of frequency subdivided into Positive, Negative and Neutral
-# Get probability of word beign in each ocation n/tokens
-# Apply Bayes
